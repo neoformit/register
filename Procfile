@@ -1,1 +1,1 @@
-web: gunicorn pizzaclub.wsgi
+web: gunicorn register.wsgi
