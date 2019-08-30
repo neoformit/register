@@ -28,7 +28,7 @@ def index(request):
             request.session['registered'] = form.cleaned_data['email']
             return render(request, 'rego/registered.html')
         return render(request, 'rego/index.html',
-                {'form': form, 'places_left': p)
+                {'form': form, 'places_left': p})
 
     form = RegoForm()
     return render(request, 'rego/index.html',
