@@ -17,12 +17,13 @@
   <br>
   <h3 class="muted"> ({{ places_left }} places remaining) </h3>
   <br>
-  <form action="/index/" method="post">
+  <form action="/" method="post">
+    {% csrf_token %}
     <div class="form-group">
       <label class="lead" for="name"> Name </label>
       <input class="form-control" type="text" name="name" {% if form.name.value %} value="{{ form.name.value }}" {% endif %} required>
       <label class="lead" for="email"> Email </label>
-      <input class="form-control" type="text" name="email" {% if form.email.value %} value="{{ form.email.value }}" {% endif %} required>
+      <input class="form-control" type="email" name="email" {% if form.email.value %} value="{{ form.email.value }}" {% endif %} required>
     </div>
     <button class="btn btn-outline-primary" type="submit"> Register </button>
   </form>

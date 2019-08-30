@@ -6,11 +6,15 @@ from .forms import RegoForm
 # Create your views here.
 def index(request):
 
+    r = len(Registration.objects.all())
+    p = 20 - r
+    if timeout():
+        return render(request, 'rego/timeout.html')
+    if r >= 20:
+        return render(request, 'rego/full.html')
     if 'registered' in request.session.keys():
         return render(request, 'rego/registered.html')
 
-    r = len(Registration.objects.all())
-    p = 20 - r
     if request.method == 'POST':
         form = RegoForm(request.POST)
         if form.is_valid():
@@ -20,10 +24,7 @@ def index(request):
             return render(request, 'rego/registered.html')
         return render(request, 'rego/index.html',
                 {'form': form, 'places_left': p})
-    if timeout():
-        return render(request, 'rego/timeout.html')
-    if r >= 20:
-        return render(request, 'rego/full.html')
+
     form = RegoForm()
     return render(request, 'rego/index.html', {'form': form, 'places_left': p})
 
