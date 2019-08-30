@@ -9,7 +9,7 @@ def index(request):
 
     r = len(Registration.objects.all())
     p = settings.NO_PLACES - r
-    time = datetime.strftime(datetime.now(), '%d-%m-%Y')
+    time = datetime.strftime(datetime.now(), '%H:%M:%S %d-%m-%Y')
 
     if timeout():
         return render(request, 'rego/timeout.html')
