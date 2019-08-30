@@ -1,5 +1,6 @@
 from .models import Registration
 from django import forms
+from django.core.exceptions import ValidationError
 
 class RegoForm(forms.ModelForm):
     class Meta:
