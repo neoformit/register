@@ -32,7 +32,7 @@ def index(request):
 
     form = RegoForm()
     return render(request, 'rego/index.html',
-            {'form': form, 'places_left': p)
+            {'form': form, 'places_left': p})
 
 
 def timeout():
