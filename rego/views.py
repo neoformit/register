@@ -13,7 +13,7 @@ def index(request):
     if timeout():
         return render(request, 'rego/timeout.html')
 
-    if r >= settings.NO_PLACES:
+    if p == 0:
         return render(request, 'rego/full.html')
 
     if 'registered' in request.session.keys():
