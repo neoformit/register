@@ -12,4 +12,8 @@ class RegoForm(forms.ModelForm):
             raise ValidationError(
                     {'email': 'Must be a registered USC email address'}
             )
+        if Registration.objects.filter(email=email):
+            raise ValidationError(
+                    {'email': 'Someone has already registered with this email address!'}
+            )
         return self.cleaned_data
