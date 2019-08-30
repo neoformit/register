@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
+from django.conf import settings
 from .models import Registration
 from .forms import RegoForm
 
@@ -7,11 +8,15 @@ from .forms import RegoForm
 def index(request):
 
     r = len(Registration.objects.all())
-    p = 20 - r
+    p = settings.NO_PLACES - r
+    time = datetime.strftime(datetime.now(), '%d-%m-%Y')
+
     if timeout():
         return render(request, 'rego/timeout.html')
+
     if r >= 20:
         return render(request, 'rego/full.html')
+
     if 'registered' in request.session.keys():
         if request.session['registered']:
             return render(request, 'rego/registered.html')
@@ -24,15 +29,16 @@ def index(request):
             request.session['registered'] = form.cleaned_data['email']
             return render(request, 'rego/registered.html')
         return render(request, 'rego/index.html',
-                {'form': form, 'places_left': p})
+                {'form': form, 'places_left': p, 'current_time': time})
 
     form = RegoForm()
-    return render(request, 'rego/index.html', {'form': form, 'places_left': p})
+    return render(request, 'rego/index.html',
+            {'form': form, 'places_left': p, 'current_time': time})
 
 
 def timeout():
     """ d0 is the registration close date (inclusive) """
-    d0 = datetime.strptime('2019-09-11', '%Y-%m-%d')
+    d0 = datetime.strptime(settings.TIMEOUT_DATE, '%Y-%m-%d')
     if datetime.now() < d0:
         return False
     return True

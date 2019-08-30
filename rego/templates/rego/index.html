@@ -10,6 +10,7 @@
   <h3 class="muted"> Room G.28 (computer lab) </h3>
   <br>
   <h3 class="text-warn"> Registration closes at midnight 9th of September! </h3>
+  <h3 class="text-warn"> Current time: {{ current_time }} </h3>
 </div>
 
 <div class="container">
@@ -22,8 +23,10 @@
     {% csrf_token %}
     <div class="form-group">
       <label class="lead" for="name"> Name </label>
+      {{ form.name.errors }}
       <input class="form-control" type="text" name="name" {% if form.name.value %} value="{{ form.name.value }}" {% endif %} required>
       <label class="lead" for="email"> Email </label>
+      {{ form.email.errors }}
       <input class="form-control" type="email" name="email" {% if form.email.value %} value="{{ form.email.value }}" {% endif %} required>
     </div>
     <button class="btn btn-outline-primary" type="submit"> Register </button>
