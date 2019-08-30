@@ -13,14 +13,15 @@ def index(request):
     if r >= 20:
         return render(request, 'rego/full.html')
     if 'registered' in request.session.keys():
-        return render(request, 'rego/registered.html')
+        if request.session['registered']:
+            return render(request, 'rego/registered.html')
 
     if request.method == 'POST':
         form = RegoForm(request.POST)
         if form.is_valid():
             # Save stuff
             form.save()
-            request.session['registered'] = True
+            request.session['registered'] = form.cleaned_data['email']
             return render(request, 'rego/registered.html')
         return render(request, 'rego/index.html',
                 {'form': form, 'places_left': p})
@@ -35,3 +36,12 @@ def timeout():
     if datetime.now() < d0:
         return False
     return True
+
+
+def cancel(request):
+    """ Cancel booking and return to homepage """
+    user_email = request.session['registered']
+    r = Registration.objects.get(email=user_email)
+    r.delete()
+    request.session['registered'] = None
+    return redirect('/')

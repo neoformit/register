@@ -20,4 +20,5 @@ from rego import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('/cancel', views.cancel, name='cancel'),
 ]
