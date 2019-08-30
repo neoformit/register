@@ -9,7 +9,6 @@ def index(request):
 
     r = len(Registration.objects.all())
     p = settings.NO_PLACES - r
-    time = datetime.strftime(datetime.now(), '%H:%M:%S %d-%m-%Y')
 
     if timeout():
         return render(request, 'rego/timeout.html')
@@ -29,11 +28,11 @@ def index(request):
             request.session['registered'] = form.cleaned_data['email']
             return render(request, 'rego/registered.html')
         return render(request, 'rego/index.html',
-                {'form': form, 'places_left': p, 'current_time': time})
+                {'form': form, 'places_left': p)
 
     form = RegoForm()
     return render(request, 'rego/index.html',
-            {'form': form, 'places_left': p, 'current_time': time})
+            {'form': form, 'places_left': p)
 
 
 def timeout():
