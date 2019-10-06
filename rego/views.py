@@ -9,15 +9,15 @@ def index(request):
     r = len(Registration.objects.all())
     p = settings.NO_PLACES - r
 
+    if 'registered' in request.session.keys():
+        if request.session['registered']:
+            return render(request, 'rego/registered.html')
+
     if timeout():
         return render(request, 'rego/timeout.html')
 
     if p == 0:
         return render(request, 'rego/full.html')
-
-    if 'registered' in request.session.keys():
-        if request.session['registered']:
-            return render(request, 'rego/registered.html')
 
     if request.method == 'POST':
         form = RegoForm(request.POST)
