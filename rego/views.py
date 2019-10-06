@@ -6,7 +6,6 @@ from .forms import RegoForm
 
 # Create your views here.
 def index(request):
-
     r = len(Registration.objects.all())
     p = settings.NO_PLACES - r
 
@@ -50,3 +49,8 @@ def cancel(request):
     r.delete()
     request.session['registered'] = None
     return redirect('/')
+
+
+def test_view(request):
+    """ Test out an html template """
+    return render(request, 'rego/registered.html')
