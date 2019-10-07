@@ -25,10 +25,12 @@ def index(request):
 
     if 'registered' in request.session.keys():
         if request.session['registered']:
-            return render(request, 'rego/registered.html')
+            return render(request, 'rego/registered.html',
+                    {'event_date': event_date()})
 
     if timeout():
-        return render(request, 'rego/timeout.html')
+        return render(request, 'rego/timeout.html',
+                {'event_date': event_date()})
 
     if p == 0:
         return render(request, 'rego/full.html')
@@ -36,16 +38,24 @@ def index(request):
     if request.method == 'POST':
         form = RegoForm(request.POST)
         if form.is_valid():
-            # Save stuff
             form.save()
             request.session['registered'] = form.cleaned_data['email']
-            return render(request, 'rego/registered.html')
-        return render(request, 'rego/index.html',
-                {'form': form, 'places_left': p, 'date_close': date_close()})
+            return render(request, 'rego/registered.html',
+                    {'event_date': event_date()})
+        return render(request, 'rego/index.html', {
+                'form': form,
+                'places_left': p,
+                'date_close': date_close(),
+                'event_date': event_date(),
+        })
 
     form = RegoForm()
-    return render(request, 'rego/index.html',
-            {'form': form, 'places_left': p, 'date_close': date_close()})
+    return render(request, 'rego/index.html', {
+            'form': form,
+            'places_left': p,
+            'date_close': date_close(),
+            'event_date': event_date(),
+    })
 
 
 def timeout():
@@ -67,4 +77,4 @@ def cancel(request):
 
 def test_view(request):
     """ Test out an html template """
-    return render(request, 'rego/registered.html')
+    return render(request, 'rego/registered.html', {'event_date': event_date()})
